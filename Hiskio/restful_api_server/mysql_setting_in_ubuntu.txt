@@ -1,0 +1,13 @@
+I....database install and setting:
+1.sudo apt-get install mysql-server mysql-client libmysqlclient-dev -y
+2.sudo netstat -tap | grep mysql(confirm install success)
+3.sudo vi /etc/mysql/debian.cnf(find rootname and password)
+4.mysql -u {rootname} -p
+
+II....setting new dbuser:
+1.CREATE USER 'user'@'localhost' IDENTIFIED BY 'password';
+2.CREATE USER 'user'@'%' IDENTIFIED BY 'password';
+3.GRANT ALL ON *.* TO 'user'@'localhost' IDENTIFIED BY 'password' WITH GRANT OPTION;
+4.GRANT ALL ON *.* TO 'user'@'%' IDENTIFIED BY 'password' WITH GRANT OPTION;
+5.FLUSH PRIVILEGES;
+6.EXIT;

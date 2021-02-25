@@ -1,0 +1,58 @@
+I....ubuntu:
+1.sudo apt-get update
+2.sudo apt-get install \
+	nginx \
+	python3-pip \
+	python3-dev \
+	python3-venv \
+	build-essential \
+	libssl-dev \
+	libffi-dev \
+	python3-setuptools -y
+
+II....python:
+1.python3.6 -m venv env
+2.source env/bin/activate
+3.pip install uwsgi flask
+
+III....web server setting:
+1.touch uwsgi.ini
+
+2.vi uwsgi.ini
+content:
+[uwsgi]
+chdir=/home/{your_name}/{file_path}
+home=/home/{your_name}/{file_path}/env
+module={run_flask_file_py_name}(the file name must xxxx.py)
+callable=app(because app=Flask(__name__)
+master=true
+processes=4
+chmod-socket=666
+logfile-chmod=644
+procname-prefix-spaced=api
+py-autoreload=1
+
+vacuum=true
+socket=%(chdir)/uwsgi/uwsgi.sock
+stats=%(chdir)/uwsgi/uwsgi.status
+pidfile=%(chdir)/uwsgi/uwsgi.pid
+daemonize=%(chdir)/uwsgi/uwsgi.log
+
+3.cd /etc/nginx/sites-enabled
+4.sudo vi default
+localtion /{
+include uwsgi_params;
+uwsgi_pass unix:/home/{your_name}/{file_path}/uwsgi/uwsgi.sock;
+}
+
+IV....web server start:
+1.cd /home/{your_name}/{file_path}
+2.mkdir uwsgi
+3.touch uwsgi/uwsgi.log
+4.uwsgi uwsgi.ini
+5.sudo service nginx restart
+
+(support)
+debug log:
+1.cd /var/log/nginx
+2.vi error.log

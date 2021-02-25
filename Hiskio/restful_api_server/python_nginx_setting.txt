@@ -40,7 +40,7 @@ daemonize=%(chdir)/uwsgi/uwsgi.log
 
 3.cd /etc/nginx/sites-enabled
 4.sudo vi default
-localtion /{
+5.localtion /{
 include uwsgi_params;
 uwsgi_pass unix:/home/{your_name}/{file_path}/uwsgi/uwsgi.sock;
 }
